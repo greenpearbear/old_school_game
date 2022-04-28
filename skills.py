@@ -8,7 +8,7 @@ class Skill(ABC):
         self.need_stamina = need_stamina
 
     @abstractmethod
-    def skill_effect(self):
+    def _skill_effect(self):
         pass
 
     def use(self, user_stamina):
@@ -21,13 +21,13 @@ class Skill(ABC):
 
 class SkillWarrior(Skill):
 
-    def skill_effect(self):
+    def _skill_effect(self):
         return self.damage
 
 
 class SkillMage(Skill):
 
-    def skill_effect(self):
+    def _skill_effect(self):
         return self.damage
 
 
