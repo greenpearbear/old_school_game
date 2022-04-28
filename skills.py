@@ -1,35 +1,59 @@
 from abc import ABC, abstractmethod
+from unit import BaseUnit
 
 
 class Skill(ABC):
-    def __init__(self, title, damage, need_stamina):
-        self.title = title
-        self.damage = damage
-        self.need_stamina = need_stamina
 
+    user = None
+    target = None
+
+    @property
     @abstractmethod
-    def _skill_effect(self):
+    def name(self):
         pass
 
-    def use(self, user_stamina):
+    @property
+    @abstractmethod
+    def stamina(self):
+        pass
 
-        if user_stamina > self.need_stamina:
-            self.skill_effect()
-        else:
-            return "У вас не хватает выносливости"
+    @property
+    @abstractmethod
+    def damage(self):
+        pass
+
+    @abstractmethod
+    def skill_effect(self) -> str:
+        pass
+
+    def _is_stamina_enough(self):
+        return self.user.stamina > self.stamina
+
+    def use(self, user: BaseUnit, target: BaseUnit) -> str:
+        self.user = user
+        self.target = target
+        if self._is_stamina_enough:
+            return self.skill_effect()
+        return f"{self.user.name} попытался использовать {self.name} но у него не хватило выносливости."
 
 
-class SkillWarrior(Skill):
+class FuryPunch(Skill):
+    name = "Свирепый пинок"
+    stamina = 6
+    damage = 12
 
-    def _skill_effect(self):
-        return self.damage
+    def skill_effect(self):
+        self.user.stamina -= self.stamina
+        self.target.get_damage(self.damage)
+        return f"{self.user.name} использует {self.name} и наносит {self.damage} урона сопернику"
 
 
-class SkillMage(Skill):
+class FireBolt(Skill):
+    name = "Огненный шар"
+    stamina = 5
+    damage = 15
 
-    def _skill_effect(self):
-        return self.damage
-
-
-Skill_Warrior = SkillWarrior(title='Рубящий удар', damage=10, need_stamina=15)
-Skill_Mage = SkillMage(title='Огненный шар', damage=20, need_stamina=25)
+    def skill_effect(self):
+        self.user.stamina -= self.stamina
+        self.target.get_damage(self.damage)
+        return f"{self.user.name} использует {self.name} и наносит {self.damage} урона сопернику"
