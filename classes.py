@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from skills import Skill
+from skills import Skill, Skill_Warrior, Skill_Mage
+
 
 @dataclass
 class UnitClass:
@@ -19,7 +20,7 @@ class Warrior(UnitClass):
     attack = 0.8
     stamina = 0.9
     armor = 1.2
-    skill =
+    skill = Skill_Warrior
 
 
 class Mage(UnitClass):
@@ -29,4 +30,4 @@ class Mage(UnitClass):
     attack = 1.6
     stamina = 1.2
     armor = 0.6
-    skill =
+    skill = Skill_Mage

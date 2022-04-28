@@ -18,4 +18,18 @@ class Skill(ABC):
         else:
             return "У вас не хватает выносливости"
 
+
 class SkillWarrior(Skill):
+
+    def skill_effect(self):
+        return self.damage
+
+
+class SkillMage(Skill):
+
+    def skill_effect(self):
+        return self.damage
+
+
+Skill_Warrior = SkillWarrior(title='Рубящий удар', damage=10, need_stamina=15)
+Skill_Mage = SkillMage(title='Огненный шар', damage=20, need_stamina=25)
